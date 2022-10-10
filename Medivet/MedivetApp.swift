@@ -11,7 +11,7 @@ import SwiftUI
 struct MedivetApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            UserRoleSelectionScreen()
         }
     }
 }
