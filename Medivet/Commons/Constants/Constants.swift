@@ -13,4 +13,9 @@ struct K {
         static let vet = "Weterynarz"
         static let patient = "Pacjent"
     }
+    
+    struct Inputs {
+        static let email = "Email"
+        static let password = "Hasło"
+    }
 }

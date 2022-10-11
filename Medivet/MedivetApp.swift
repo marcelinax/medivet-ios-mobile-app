@@ -11,7 +11,9 @@ import SwiftUI
 struct MedivetApp: App {
     var body: some Scene {
         WindowGroup {
-            UserRoleSelectionScreen()
+            NavigationView {
+                LoginScreen()
+            }
         }
     }
 }
