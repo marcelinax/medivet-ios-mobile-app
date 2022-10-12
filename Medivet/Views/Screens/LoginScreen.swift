@@ -29,8 +29,8 @@ struct LoginScreen: View {
                 Text(K.Words.noAccountYet)
                     .foregroundColor(Colors.secondary)
                     .font(.system(size: 17))
-                Button{
-                    
+                NavigationLink {
+                    UserRoleSelectionScreen()
                 } label: {
                     Text(K.Buttons.signUp)
                         .fontWeight(.semibold)
