@@ -8,15 +8,37 @@
 import SwiftUI
 
 struct LoginScreen: View {
+    @StateObject var loginScreenController = LoginScreenController()
+    var errorMessage = ErrorMessageController()
+    @State private var emailInputValue: String = ""
+    @State private var passwordInputValue: String = ""
+    
+    private let emailInputErrors: [String] = [
+        ErrorMessages.userWithThisEmailDoesNotExist,
+        ErrorMessages.emailMustBeAnEmail,
+    ]
+    
+    private let passwordInputErrors: [String] = [
+        ErrorMessages.wrongPassword,
+        ErrorMessages.passwordShouldNotBeEmpty,
+    ]
     
     func login() {
-        print("login")
+        loginScreenController.signIn(email: emailInputValue, password: passwordInputValue)
     }
    
     var body: some View {
         VStack {
-            MedivetTextInput(icon: "x.circle.fill", placeholder: K.Inputs.email)
-            MedivetTextInput(icon: "eye.fill", placeholder: K.Inputs.password)
+            MedivetTextInput(
+                placeholder: K.Inputs.email,
+                value: emailInputValue,
+                errors: errorMessage.getErrors(errors: loginScreenController.errors, inputErrors: emailInputErrors),
+                isClearable: true
+            )
+            MedivetPasswordInput(
+                value: $passwordInputValue,
+                errors: errorMessage.getErrors(errors: loginScreenController.errors, inputErrors: passwordInputErrors)
+            )
             Button{
                 
             } label: {
@@ -38,12 +60,5 @@ struct LoginScreen: View {
                 }.font(.system(size: 17))
             }.padding(.top, 25)
         }.padding()
-    }
-}
-
-struct LoginScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginScreen()
-            .frame(height: 1.0)
     }
 }
