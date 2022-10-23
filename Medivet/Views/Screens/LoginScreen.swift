@@ -29,6 +29,18 @@ struct LoginScreen: View {
    
     var body: some View {
         VStack {
+            VStack {
+                Image(uiImage: UIImage(named: "Dog") ?? UIImage())
+                    .resizable()
+                    .frame(width: 250, height: 200)
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.top, 16)
+                Text(K.Words.medivet)
+                    .foregroundColor(Colors.primary)
+                    .fontWeight(.semibold)
+                    .font(.system(size: 20))
+            }.padding(.bottom, 30)
+           
             MedivetTextInput(
                 placeholder: K.Inputs.email,
                 value: emailInputValue,

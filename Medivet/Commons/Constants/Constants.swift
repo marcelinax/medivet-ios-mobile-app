@@ -13,6 +13,7 @@ struct K {
         static let vet = "Weterynarz"
         static let patient = "Pacjent"
         static let noAccountYet = "Nie masz jeszcze konta?"
+        static let medivet = "MediVet"
     }
     
     struct Inputs {
