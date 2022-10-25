@@ -11,14 +11,7 @@ struct MedivetTextInput: View {
     var errors: [String]
     let isClearable: Bool?
     let placeholder: String?
-    @State var value: String
-    
-    init(placeholder: String? = nil, value: String, errors: [String], isClearable: Bool? = false) {
-        self.placeholder = placeholder
-        self.value = value
-        self.errors = errors
-        self.isClearable = isClearable
-    }
+    @Binding var value: String
     
     @ViewBuilder func renderClearIcon() -> some View {
         if isClearable! {

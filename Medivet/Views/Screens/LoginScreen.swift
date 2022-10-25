@@ -40,13 +40,13 @@ struct LoginScreen: View {
                     .fontWeight(.semibold)
                     .font(.system(size: 20))
             }.padding(.bottom, 30)
-           
             MedivetTextInput(
-                placeholder: K.Inputs.email,
-                value: emailInputValue,
                 errors: errorMessage.getErrors(errors: loginScreenController.errors, inputErrors: emailInputErrors),
-                isClearable: true
-            )
+                isClearable: true,
+                placeholder: K.Inputs.email,
+                value: $emailInputValue
+            ).keyboardType(.emailAddress)
+                .padding(.bottom, 15)
             MedivetPasswordInput(
                 value: $passwordInputValue,
                 errors: errorMessage.getErrors(errors: loginScreenController.errors, inputErrors: passwordInputErrors)

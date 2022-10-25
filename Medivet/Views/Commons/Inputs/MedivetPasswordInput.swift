@@ -8,26 +8,21 @@
 import SwiftUI
 
 struct MedivetPasswordInput: View {
+    @Binding var value: String
     var errors: [String]
-    let value: Binding<String>
     @State private var isValueVisible: Bool = false
-    
-    init(value: Binding<String>, errors: [String]) {
-        self.value = value
-        self.errors = errors
-    }
     
     @ViewBuilder func renderContent() -> some View {
         if isValueVisible {
             TextField(
                 K.Inputs.password,
-                text: value
+                text: $value
             )
         }
         else  {
             SecureField(
                 K.Inputs.password,
-                text: value
+                text: $value
             )
         }
     }
