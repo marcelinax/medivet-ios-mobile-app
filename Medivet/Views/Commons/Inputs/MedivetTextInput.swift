@@ -12,6 +12,7 @@ struct MedivetTextInput: View {
     let isClearable: Bool?
     let placeholder: String?
     @Binding var value: String
+    var icon: String?
     
     @ViewBuilder func renderClearIcon() -> some View {
         if isClearable! {
@@ -23,18 +24,26 @@ struct MedivetTextInput: View {
         }
     }
     
+    @ViewBuilder func renderIcon() -> some View {
+        if icon != nil {
+            Image(systemName: icon!).foregroundColor(Color.gray)
+                .padding(.leading, 15)
+        }
+    }
+    
     func clearValue() {
         value = ""
     }
     
     var body: some View {
         VStack(alignment: .leading){
-        HStack(alignment: .bottom) {
+        HStack(alignment: .center) {
+            renderIcon()
             TextField(
                  placeholder ?? "",
                  text: $value
              )
-                .padding(.horizontal)
+            .padding(.horizontal, icon != nil ? 0 : nil)
             renderClearIcon()
         }
         .overlay(VStack{

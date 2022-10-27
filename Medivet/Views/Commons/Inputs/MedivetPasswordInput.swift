@@ -11,17 +11,18 @@ struct MedivetPasswordInput: View {
     @Binding var value: String
     var errors: [String]
     @State private var isValueVisible: Bool = false
+    var hasIcon: Bool? = false
     
     @ViewBuilder func renderContent() -> some View {
         if isValueVisible {
             TextField(
-                K.Inputs.password,
+                Translations.Inputs.password,
                 text: $value
             )
         }
         else  {
             SecureField(
-                K.Inputs.password,
+                Translations.Inputs.password,
                 text: $value
             )
         }
@@ -29,9 +30,13 @@ struct MedivetPasswordInput: View {
     
     var body: some View {
         VStack(alignment: .leading){
-        HStack(alignment: .bottom) {
+        HStack(alignment: .center) {
+            if hasIcon == true {
+                Image(systemName: "lock").foregroundColor(Color.gray)
+                    .padding(.leading, 15)
+            }
             renderContent()
-                .padding(.horizontal)
+                .padding(.horizontal, hasIcon == true ? 0 : nil)
             Button {
                 isValueVisible.toggle()
             } label: {

@@ -14,7 +14,6 @@ struct MedivetButton: View {
     let fontSize: CGFloat = 17
     let action: () -> Void
     
-    
     var body: some View {
         Button {
             action()
