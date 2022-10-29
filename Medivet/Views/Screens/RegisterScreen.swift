@@ -98,9 +98,8 @@ struct RegisterScreen: View {
     }
     // pomyślec o clearowaniu błędów na zmianę input value
     // poprawić layout
-    // nie pojawia sie klawiatura
     // poprawic datePicker buttons
-
+    
     var body: some View {
         ScrollView {
         VStack(alignment: .center, spacing: 0) {
@@ -136,20 +135,32 @@ struct RegisterScreen: View {
                 value: $nameValueInput,
                 icon: "person"
             ).padding(.bottom, 12)
-            MedivetTextInput(
-                errors: errorMessage.getErrors(errors: registerScreenController.errors, inputErrors: birthDateInputErrors),
-                isClearable: false,
-                placeholder: Translations.Inputs.birthDate,
-                value: initialBirthDateValue != "" ? Binding.constant(initialBirthDateValue) : Binding.constant(dateFormatter.string(from: birthDateValueInput)),
-                icon: "calendar"
-            ).onTapGesture(perform: {
+            Button(action: {
                 showDatePickerAlert()
-            }).padding(.bottom, 12)
+            }) {
+                MedivetTextInput(
+                    errors: errorMessage.getErrors(errors: registerScreenController.errors, inputErrors: birthDateInputErrors),
+                    isClearable: false,
+                    placeholder: Translations.Inputs.birthDate,
+                    value: initialBirthDateValue != "" ? Binding.constant(initialBirthDateValue) : Binding.constant(dateFormatter.string(from: birthDateValueInput)),
+                    icon: "calendar"
+                ).onTapGesture(perform: {
+                    showDatePickerAlert()
+                }).padding(.bottom, 12)
+                    .disabled(true)
+                .multilineTextAlignment(.leading)  
+            }
             Picker("", selection: $selectedGender) {
                 Text(EnumsTranslations.Gender.male).tag(Gender.male)
                 Text(EnumsTranslations.Gender.female).tag(Gender.female)
             }.pickerStyle(.segmented)
                 .padding(.bottom, 30)
+                .zIndex(Double(90))
+                .simultaneousGesture(
+                    TapGesture().onEnded({
+                        selectedGender = registerScreenController.toggleGenderPickerValue(selectedGender)
+                    })
+                )
             HStack {
                 Toggle("", isOn: $acceptTerms)
                     .toggleStyle(.switch)
@@ -175,8 +186,18 @@ struct RegisterScreen: View {
                 }.font(.system(size: 17))
             }.padding(.top, 25)
         }.padding()
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading).frame(maxWidth: .infinity, maxHeight: .infinity)
+        }.onTapGesture {
+            self.dismissKeyboard()
+        }
+        .onAppear {
+            UIScrollView.appearance().keyboardDismissMode = .onDrag
         }
     }
 }
 
+class TextFieldDeleage: NSObject, UIApplicationDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+      return false
+    }
+}
