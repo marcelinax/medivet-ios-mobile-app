@@ -60,7 +60,7 @@ struct RegisterScreen: View {
         datePicker.preferredDatePickerStyle = .wheels
         alertVC.view.addSubview(datePicker)
         
-        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+        let okAction = UIAlertAction(title: Translations.Common.confirm, style: .default) { _ in
             if initialBirthDateValue != "" {
                 initialBirthDateValue = ""
             }
@@ -69,7 +69,7 @@ struct RegisterScreen: View {
             birthDateValueInput = datePicker.date
         }
         alertVC.addAction(okAction)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: Translations.Common.cancel, style: .cancel)
         alertVC.addAction(cancelAction)
         
         let scenes = UIApplication.shared.connectedScenes
@@ -98,7 +98,6 @@ struct RegisterScreen: View {
     }
     // pomyślec o clearowaniu błędów na zmianę input value
     // poprawić layout
-    // poprawic datePicker buttons
     
     var body: some View {
         ScrollView {

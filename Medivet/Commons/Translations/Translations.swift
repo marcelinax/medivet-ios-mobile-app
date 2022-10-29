@@ -10,6 +10,8 @@ import UIKit
 struct Translations {
     struct Common {
         static let medivet = "MediVet"
+        static let cancel = "Anuluj"
+        static let confirm = "Zatwierdź"
     }
     
     struct Screens {
