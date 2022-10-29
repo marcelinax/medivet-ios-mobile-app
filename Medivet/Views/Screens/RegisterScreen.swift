@@ -80,6 +80,7 @@ struct RegisterScreen: View {
     }
     
     func register() {
+        self.dismissKeyboard()
         registerScreenController.signUp(
             email: emailValueInput,
             password: passwordValueInput,
@@ -185,7 +186,7 @@ struct RegisterScreen: View {
                 }.font(.system(size: 17))
             }.padding(.top, 25)
         }.padding()
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading).frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
         }.onTapGesture {
             self.dismissKeyboard()
         }

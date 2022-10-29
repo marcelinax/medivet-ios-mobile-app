@@ -24,6 +24,7 @@ struct LoginScreen: View {
     ]
     
     func login() {
+        self.dismissKeyboard()
         loginScreenController.signIn(email: emailInputValue, password: passwordInputValue)
     }
     
@@ -74,6 +75,9 @@ struct LoginScreen: View {
                         .foregroundColor(Colors.secondary)
                 }.font(.system(size: 17))
             }.padding(.top, 25)
-        }.padding()
+        }.padding().background(.white)
+            .onTapGesture {
+                self.dismissKeyboard()
+            }
     }
 }
