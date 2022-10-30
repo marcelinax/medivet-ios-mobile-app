@@ -28,6 +28,8 @@ struct LoginScreen: View {
         loginScreenController.signIn(email: emailInputValue, password: passwordInputValue)
     }
     
+    
+    
     var body: some View {
         VStack {
             VStack {
@@ -61,8 +63,10 @@ struct LoginScreen: View {
                 Text(Translations.Screens.Login.forgotPassword)
             }.padding(.top, 25)
                 .foregroundColor(Color.gray)
-            MedivetButton(title: Translations.Screens.Login.signIn, backgroundColor: Colors.primary, color: Color.white, action: login)
-                .padding(.top, 35)
+            NavigationLink(destination: HomeScreen(), isActive: $loginScreenController.canNavigateToHomeScreen, label: {
+                MedivetButton(title: Translations.Screens.Login.signIn, backgroundColor: Colors.primary, color: Color.white, action: login)
+                    .padding(.top, 35)
+            })
             HStack{
                 Text(Translations.Screens.Login.noAccountYet)
                     .foregroundColor(Colors.secondary)
@@ -78,6 +82,6 @@ struct LoginScreen: View {
         }.padding().background(.white)
             .onTapGesture {
                 self.dismissKeyboard()
-            }
+            }.navigationBarBackButtonHidden(true)
     }
 }

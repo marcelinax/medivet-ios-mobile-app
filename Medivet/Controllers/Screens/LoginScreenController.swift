@@ -9,11 +9,10 @@ import UIKit
 
 class LoginScreenController: UIViewController, ObservableObject {
     @Published var errors: [String] = [""]
+    @Published var canNavigateToHomeScreen: Bool = false
     let errorMessage = ErrorMessageController()
+    let authTokenStore = AuthTokenStore()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     func signIn(email: String, password: String) {
         let body: [String: String] = ["email": email, "password": password]
@@ -28,10 +27,16 @@ class LoginScreenController: UIViewController, ObservableObject {
                 print("Something went wrong!")
                 return
             }
-        
+            
             do {
                 let result = try JSONDecoder().decode(Auth.self, from: data)
-                print(result.token_type);
+                print("result", result)
+                if result.access_token != "" {
+                    DispatchQueue.main.async {
+                        self.canNavigateToHomeScreen = true
+                    }
+                    self.authTokenStore.save(Data(result.access_token.utf8))
+                }
             } catch {
                 let decodedErrors =  self.errorMessage.decodeErrors(data: data)
                 
