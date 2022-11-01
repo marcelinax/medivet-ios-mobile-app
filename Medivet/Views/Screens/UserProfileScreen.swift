@@ -12,20 +12,35 @@ struct UserProfileScreen: View {
     @State var currentUser: CurrentUser
     @State private var userName: String = ""
     @State private var userGender: Gender = Gender.male
-    
+    @State private var showImagePicker = false
+    @State private var userImage: UIImage?
+
     var body: some View {
         ScrollView {
             VStack {
-            Image(systemName: "person.circle.fill")
-                .foregroundColor(Color.gray)
-                .font(.system(size: 140))
+                if userImage != nil {
+                    Image(uiImage: userImage!)
+                        .resizable()
+                        .frame(width: 140, height: 140)
+                        .cornerRadius(140/2)
+                        .padding(.bottom, 1)
+                }
+                else {
+                    Image(systemName: "person.circle.fill")
+                        .foregroundColor(Color.gray)
+                        .font(.system(size: 140))
+                        .padding(.bottom, 1)
+                }
                 Button {
-                    
+                    self.showImagePicker = true
                 } label: {
                     Text(Translations.Screens.UserProfile.editProfilePhoto)
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
                 }.foregroundColor(Color.gray)
+                    .sheet(isPresented: $showImagePicker) {
+                        ImagePicker(selectedImage: $userImage, source: Binding.constant(.photoLibrary))
+                    }
             }.padding(.bottom, 16)
             MedivetTextInput(
             errors: [],
