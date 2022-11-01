@@ -18,7 +18,6 @@ class RegisterScreenController: UIViewController, ObservableObject {
     
 
     func signUp(email: String, password: String, name: String, birthDate: Date, gender: Gender, acceptTerms: Bool, role: UserRole) {
-        print(birthDate)
         let body: [String: Any] = [
             "email": email,
             "password": password,

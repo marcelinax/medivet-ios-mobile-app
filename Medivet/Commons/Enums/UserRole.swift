@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum UserRole: String {
+enum UserRole: String, Decodable {
     case vet, patient
 }

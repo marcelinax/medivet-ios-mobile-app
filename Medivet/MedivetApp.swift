@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct MedivetApp: App {
     @StateObject var createUserStore = CreateUserStore()
+    @StateObject var currentUserStore = CurrentUserStore()
      var authTokenStore = AuthTokenStore()
     @State private var isUserAuthenticated: Bool = false
     
@@ -18,6 +19,7 @@ struct MedivetApp: App {
             NavigationView {
                 isUserAuthenticated ? AnyView(HomeScreen()) : AnyView(LoginScreen())
             }.environmentObject(createUserStore)
+                .environmentObject(currentUserStore)
                 .onAppear(perform: ({
                     if authTokenStore.read() != nil {
                         print("auth")

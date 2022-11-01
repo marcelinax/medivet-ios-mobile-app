@@ -32,6 +32,10 @@ struct Translations {
         struct SelectUserRole {
             static let continueAs = "Kontynuuj jako"
         }
+        
+        struct UserProfile {
+            static let editProfilePhoto = "EDYTUJ ZDJĘCIE"
+        }
     }
     
     struct Inputs {
@@ -39,5 +43,9 @@ struct Translations {
         static let password = "Hasło"
         static let name = "Imię i nazwisko"
         static let birthDate = "Data urodzenia"
+    }
+    
+    struct Navigation {
+        static let userProfile = "Profil użytkownika"
     }
 }
