@@ -35,6 +35,8 @@ struct Translations {
         
         struct UserProfile {
             static let editProfilePhoto = "EDYTUJ ZDJĘCIE"
+            static let chooseProfilePhoto = "Wybierz zdjęcie"
+            static let removeProfilePhoto = "Usuń zdjęcie"
         }
     }
     

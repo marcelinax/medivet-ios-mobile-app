@@ -65,8 +65,33 @@ class UserProfileScreenController: UIViewController, ObservableObject {
         }).resume()
     }
     
-    func removeUserProfilePhoto() {
+    func removeUserProfilePhoto(currentUserStore: CurrentUserStore) {
+        var request: URLRequest = URLRequest(url: URL(string: "\(Environment.apiUrl)users/me/remove-profile-photo")!)
+        request.httpMethod = "DELETE"
         
+        let token = String(decoding: authTokenStore.read()!, as: UTF8.self)
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue( "Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+            guard let data = data, error == nil else {
+                print("Something went wrong!")
+                return
+            }
+            
+            do {
+                DispatchQueue.main.async {
+                    currentUserStore.setCurrentUserProfilePhotoUrl("")
+                }
+            } catch {
+                let decodedErrors =  self.errorMessage.decodeErrors(data: data)
+                print(decodedErrors)
+                
+                DispatchQueue.main.async {
+                    self.errors = decodedErrors
+                }
+            }
+        }).resume()
     }
     
 }

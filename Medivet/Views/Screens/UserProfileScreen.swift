@@ -14,6 +14,7 @@ struct UserProfileScreen: View {
     @State private var userGender: Gender = Gender.male
     @State private var showImagePicker = false
     @State private var userImage: UIImage?
+    @State private var showEditUserProfilePhotoAlert = false
     
     var body: some View {
         ScrollView {
@@ -24,7 +25,7 @@ struct UserProfileScreen: View {
                         content: { phase in
                             switch phase {
                             case .empty:
-                            ProgressView()
+                                ProgressView()
                             case .success(let image):
                                 image.resizable()
                                     .frame(width: 140, height: 140)
@@ -47,16 +48,25 @@ struct UserProfileScreen: View {
                         .padding(.bottom, 1)
                 }
                 Button {
-                    self.showImagePicker = true
+                    self.showEditUserProfilePhotoAlert = true
                 } label: {
                     Text(Translations.Screens.UserProfile.editProfilePhoto)
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
                 }.foregroundColor(Color.gray)
-                    .sheet(isPresented: $showImagePicker) {
-                        ImagePicker(selectedImage: $userImage, source: Binding.constant(.photoLibrary))
+                    .confirmationDialog("", isPresented: $showEditUserProfilePhotoAlert) {
+                        Button(Translations.Screens.UserProfile.chooseProfilePhoto) {
+                            self.showImagePicker = true
+                        }
+                        Button(Translations.Screens.UserProfile.removeProfilePhoto, role: .destructive) {
+                            userProfileScreenController.removeUserProfilePhoto(currentUserStore: currentUserStore)
+                        }
+                        Button(Translations.Common.cancel, role: .cancel) {}
                     }
             }.padding(.bottom, 16)
+                .sheet(isPresented: $showImagePicker) {
+                    ImagePicker(selectedImage: $userImage, source: Binding.constant(.photoLibrary))
+                }
             MedivetTextInput(
                 errors: [],
                 isClearable: true,
