@@ -11,7 +11,7 @@ import SwiftUI
 struct MedivetApp: App {
     @StateObject var createUserStore = CreateUserStore()
     @StateObject var currentUserStore = CurrentUserStore()
-     var authTokenStore = AuthTokenStore()
+    var authTokenStore = AuthTokenStore()
     @State private var isUserAuthenticated: Bool = false
     
     var body: some Scene {
@@ -22,11 +22,9 @@ struct MedivetApp: App {
                 .environmentObject(currentUserStore)
                 .onAppear(perform: ({
                     if authTokenStore.read() != nil {
-                        print("auth")
                         isUserAuthenticated = true
                     }
                     else {
-                        print("not auth")
                         isUserAuthenticated = false
                     }
                 }))

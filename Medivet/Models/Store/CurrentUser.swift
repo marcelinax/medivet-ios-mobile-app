@@ -9,12 +9,12 @@ import Foundation
 
 struct CurrentUser: Decodable {
     let role: UserRole
-    let name: String
-    let gender: Gender
-    let birthDate: Date
-    let phoneNumber: String
-    let profilePhotoUrl: String
-    let address: Address
+    var name: String
+    var gender: Gender
+    var birthDate: Date
+    var phoneNumber: String
+    var profilePhotoUrl: String
+    var address: Address
     //    var specializations: [String]
     //    var clinics: [String]
 }

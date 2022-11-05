@@ -28,6 +28,10 @@ final class CurrentUserStore: ObservableObject {
         self.user = user
     }
     
+    func setCurrentUserProfilePhotoUrl(_ photoUrl: String) {
+        self.user.profilePhotoUrl = photoUrl
+    }
+    
     func getCurrentUser() -> CurrentUser {
         return self.user
     }

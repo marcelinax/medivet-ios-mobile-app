@@ -8,22 +8,37 @@
 import SwiftUI
 
 struct UserProfileScreen: View {
+    @EnvironmentObject var currentUserStore: CurrentUserStore
     @StateObject private var userProfileScreenController = UserProfileScreenController()
-    @State var currentUser: CurrentUser
     @State private var userName: String = ""
     @State private var userGender: Gender = Gender.male
     @State private var showImagePicker = false
     @State private var userImage: UIImage?
-
+    
     var body: some View {
         ScrollView {
             VStack {
-                if userImage != nil {
-                    Image(uiImage: userImage!)
-                        .resizable()
-                        .frame(width: 140, height: 140)
-                        .cornerRadius(140/2)
-                        .padding(.bottom, 1)
+                if currentUserStore.user.profilePhotoUrl != "" {
+                    AsyncImage(
+                        url: URL(string: currentUserStore.user.profilePhotoUrl)!,
+                        content: { phase in
+                            switch phase {
+                            case .empty:
+                            ProgressView()
+                            case .success(let image):
+                                image.resizable()
+                                    .frame(width: 140, height: 140)
+                                    .cornerRadius(140/2)
+                                    .padding(.bottom, 1)
+                            case .failure:
+                                Image(systemName: "person.circle.fill")
+                                    .foregroundColor(Color.gray)
+                                    .font(.system(size: 140))
+                                    .padding(.bottom, 1)
+                            @unknown default:
+                                ProgressView()
+                            }
+                        })
                 }
                 else {
                     Image(systemName: "person.circle.fill")
@@ -43,10 +58,10 @@ struct UserProfileScreen: View {
                     }
             }.padding(.bottom, 16)
             MedivetTextInput(
-            errors: [],
-            isClearable: true,
-            placeholder: Translations.Inputs.name,
-            value: $userName
+                errors: [],
+                isClearable: true,
+                placeholder: Translations.Inputs.name,
+                value: $userName
             ).padding(.bottom, 40)
             Picker("", selection: $userGender) {
                 Text(EnumsTranslations.Gender.male).tag(Gender.male)
@@ -59,15 +74,20 @@ struct UserProfileScreen: View {
                     })
                 )
         }.padding()
-        .onAppear(perform: ({
-            UIScrollView.appearance().keyboardDismissMode = .onDrag
-            userName = currentUser.name
-            userGender = currentUser.gender
-        }))
-        .navigationTitle(Translations.Navigation.userProfile)
-        .navigationBarTitleDisplayMode(.inline)
-        .onTapGesture {
-            self.dismissKeyboard()
-        }
+            .onAppear(perform: ({
+                UIScrollView.appearance().keyboardDismissMode = .onDrag
+                userName = currentUserStore.user.name
+                userGender = currentUserStore.user.gender
+            }))
+            .navigationTitle(Translations.Navigation.userProfile)
+            .navigationBarTitleDisplayMode(.inline)
+            .onTapGesture {
+                self.dismissKeyboard()
+            }
+            .onChange(of: userImage) { value in
+                if userImage != nil {
+                    userProfileScreenController.updateUserProfilePhoto(image: userImage!, currentUserStore: currentUserStore)
+                }
+            }
     }
 }

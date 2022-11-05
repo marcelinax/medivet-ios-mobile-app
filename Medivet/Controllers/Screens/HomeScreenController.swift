@@ -35,7 +35,10 @@ class HomeScreenController: UIViewController, ObservableObject {
                 decoder.dateDecodingStrategy = .formatted(dateFormatter)
                 
                 let result = try decoder.decode(CurrentUser.self, from: data)
-                currentUserStore.setCurrentUser(result)
+                DispatchQueue.main.async {
+                    currentUserStore.setCurrentUser(result)
+                }
+               
                 
             } catch {
                 let decodedErrors =  self.errorMessage.decodeErrors(data: data)

@@ -18,7 +18,7 @@ struct HomeScreen: View {
         authTokenStore.delete()
         isUserAuthenticated = false
     }
- 
+    
     var body: some View {
         VStack{
             Text("Home")
@@ -27,14 +27,14 @@ struct HomeScreen: View {
                     .padding(.top, 10)
             }).navigationBarBackButtonHidden(true)
                 .padding()
-            NavigationLink(destination: UserProfileScreen(currentUser: currentUserStore.getCurrentUser()), isActive: $goToUserProfile, label: {
+            NavigationLink(destination: UserProfileScreen(), isActive: $goToUserProfile, label: {
                 MedivetButton(title: "Profil", backgroundColor: Colors.primary, color: Color.white, action: ({
                     goToUserProfile = true
                 }))
-                    .padding()
+                .padding()
             })
         }.onAppear(perform: ({
-            homeScreenController.fetchCurrentUser(currentUserStore)
+                homeScreenController.fetchCurrentUser(currentUserStore)
         }))
     }
 }
