@@ -45,6 +45,9 @@ struct Translations {
         static let password = "Hasło"
         static let name = "Imię i nazwisko"
         static let birthDate = "Data urodzenia"
+        static let gender = "Płeć"
+        static let address = "Adres"
+        static let phoneNumber = "Numer telefonu"
     }
     
     struct Navigation {

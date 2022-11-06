@@ -15,6 +15,9 @@ struct UserProfileScreen: View {
     @State private var showImagePicker = false
     @State private var userImage: UIImage?
     @State private var showEditUserProfilePhotoAlert = false
+    @State private var userBirthDate: Date  = Date()
+    @State private var showBirthDatePicker = false
+    let dateFormatter = DateFormatter()
     
     var body: some View {
         ScrollView {
@@ -73,27 +76,30 @@ struct UserProfileScreen: View {
                 placeholder: Translations.Inputs.name,
                 value: $userName
             ).padding(.bottom, 40)
-            Picker("", selection: $userGender) {
-                Text(EnumsTranslations.Gender.male).tag(Gender.male)
-                Text(EnumsTranslations.Gender.female).tag(Gender.female)
-            }.pickerStyle(.segmented)
-                .padding(.bottom, 30)
-                .simultaneousGesture(
-                    TapGesture().onEnded({
-                        userGender = userProfileScreenController.toggleGenderPickerValue(userGender)
-                    })
-                )
+            Form {
+                Section {
+                   FormButtonWithLabelAndValue(
+                    label: Translations.Inputs.birthDate,
+                    action: ({
+                        showBirthDatePicker = true
+                    }),
+                    value: dateFormatter.getShortFormat(currentUserStore.user.birthDate)
+                   ).allowsHitTesting(false)
+                    if showBirthDatePicker {
+                        DatePicker(Translations.Inputs.birthDate, selection: $currentUserStore.user.birthDate, displayedComponents: [.date])
+                            .datePickerStyle(.graphical)
+                    }
+                }
+            }.frame(height: 300)
         }.padding()
             .onAppear(perform: ({
                 UIScrollView.appearance().keyboardDismissMode = .onDrag
                 userName = currentUserStore.user.name
                 userGender = currentUserStore.user.gender
+                UIApplication.shared.handleKeyboard()
             }))
             .navigationTitle(Translations.Navigation.userProfile)
             .navigationBarTitleDisplayMode(.inline)
-            .onTapGesture {
-                self.dismissKeyboard()
-            }
             .onChange(of: userImage) { value in
                 if userImage != nil {
                     userProfileScreenController.updateUserProfilePhoto(image: userImage!, currentUserStore: currentUserStore)

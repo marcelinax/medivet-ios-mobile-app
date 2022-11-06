@@ -80,8 +80,9 @@ struct LoginScreen: View {
                 }.font(.system(size: 17))
             }.padding(.top, 25)
         }.padding().background(.white)
-            .onTapGesture {
-                self.dismissKeyboard()
-            }.navigationBarBackButtonHidden(true)
+            .onAppear(perform: ({
+                UIApplication.shared.handleKeyboard()
+            }))
+            .navigationBarBackButtonHidden(true)
     }
 }

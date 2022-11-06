@@ -187,11 +187,10 @@ struct RegisterScreen: View {
             }.padding(.top, 25)
         }.padding()
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
-        }.onTapGesture {
-            self.dismissKeyboard()
         }
         .onAppear {
             UIScrollView.appearance().keyboardDismissMode = .onDrag
+            UIApplication.shared.handleKeyboard()
         }
     }
 }
