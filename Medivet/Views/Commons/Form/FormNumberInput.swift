@@ -16,7 +16,6 @@ struct FormNumberInput: View {
         if isClearable! {
             Button {
                 clearValue()
-                print("clear")
             } label: { Image(systemName: "x.circle.fill").foregroundColor(Color.gray)
                     .padding(.leading, 10)
             }.buttonStyle(.borderless)

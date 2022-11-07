@@ -28,6 +28,7 @@ struct MedivetApp: App {
                         isUserAuthenticated = false
                     }
                 }))
+                .navigationViewStyle(.stack)
         }
     }
 }

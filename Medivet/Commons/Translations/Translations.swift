@@ -12,6 +12,7 @@ struct Translations {
         static let medivet = "MediVet"
         static let cancel = "Anuluj"
         static let confirm = "Zatwierdź"
+        static let optional = "Opcjonalnie"
     }
     
     struct Screens {
@@ -38,6 +39,10 @@ struct Translations {
             static let chooseProfilePhoto = "Wybierz zdjęcie"
             static let removeProfilePhoto = "Usuń zdjęcie"
         }
+        
+        struct SelectGender {
+            static let selectGender = "Wybierz płeć"
+        }
     }
     
     struct Inputs {
@@ -48,6 +53,11 @@ struct Translations {
         static let gender = "Płeć"
         static let address = "Adres"
         static let phoneNumber = "Numer telefonu"
+        static let city = "Miasto"
+        static let street = "Ulica"
+        static let buildingNumber = "Nr budynku"
+        static let flatNumber = "Nr mieszkania"
+        static let zipCode = "Kod pocztowy"
     }
     
     struct Navigation {

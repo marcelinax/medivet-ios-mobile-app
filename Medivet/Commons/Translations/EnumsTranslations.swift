@@ -11,6 +11,8 @@ struct EnumsTranslations {
     struct Gender {
         static let female = "Kobieta"
         static let male = "Mężczyzna"
+        static let petFemale = "Samica"
+        static let petMale = "Samiec"
     }
     
     struct UserRole {

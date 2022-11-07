@@ -52,14 +52,4 @@ class RegisterScreenController: UIViewController, ObservableObject {
         }
         task.resume()
     }
-    
-    func toggleGenderPickerValue(_ value: Gender) -> Gender {
-        if value == Gender.female {
-            return Gender.male
-        }
-        else {
-            return Gender.female
-        }
-    }
-
 }

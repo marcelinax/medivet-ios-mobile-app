@@ -18,6 +18,7 @@ struct UserProfileScreen: View {
     @State private var userBirthDate: Date  = Date()
     @State private var showBirthDatePicker = false
     let dateFormatter = DateFormatter()
+    private let formatAddressController = FormatAddressController()
     
     var body: some View {
         ScrollView {
@@ -78,13 +79,27 @@ struct UserProfileScreen: View {
             ).padding(.bottom, 40)
             Form {
                 Section {
-                   FormButtonWithLabelAndValue(
-                    label: Translations.Inputs.birthDate,
-                    action: ({
-                        showBirthDatePicker = true
-                    }),
-                    value: dateFormatter.getShortFormat(currentUserStore.user.birthDate)
-                   ).allowsHitTesting(false)
+                    FormNavigationLinkWithLabel(
+                        label: Translations.Inputs.address,
+                        value: formatAddressController.getAddress(
+                            street: currentUserStore.user.address.street,
+                            buildingNumber: currentUserStore.user.address.buildingNumber,
+                            flatNumber: currentUserStore.user.address.flatNumber,
+                            zipCode: currentUserStore.user.address.zipCode,
+                            city: currentUserStore.user.address.city),
+                        destination: UserProfileAddressScreen()
+                    )
+                    Picker(selection: $currentUserStore.user.gender, label: Text(Translations.Inputs.gender)) {
+                        Text(EnumsTranslations.Gender.male ).tag(Gender.male)
+                        Text(EnumsTranslations.Gender.female ).tag(Gender.female)
+                    }
+                    FormButtonWithLabelAndValue(
+                        label: Translations.Inputs.birthDate,
+                        action: ({
+                            showBirthDatePicker = true
+                        }),
+                        value: dateFormatter.getShortFormat(currentUserStore.user.birthDate)
+                    ).allowsHitTesting(false)
                     if showBirthDatePicker {
                         DatePicker(Translations.Inputs.birthDate, selection: $currentUserStore.user.birthDate, displayedComponents: [.date])
                             .datePickerStyle(.graphical)

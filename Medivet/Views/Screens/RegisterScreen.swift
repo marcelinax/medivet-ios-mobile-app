@@ -155,12 +155,6 @@ struct RegisterScreen: View {
                 Text(EnumsTranslations.Gender.female).tag(Gender.female)
             }.pickerStyle(.segmented)
                 .padding(.bottom, 30)
-                .zIndex(Double(90))
-                .simultaneousGesture(
-                    TapGesture().onEnded({
-                        selectedGender = registerScreenController.toggleGenderPickerValue(selectedGender)
-                    })
-                )
             HStack {
                 Toggle("", isOn: $acceptTerms)
                     .toggleStyle(.switch)
