@@ -18,6 +18,7 @@ struct FormTextInput: View {
                 clearValue()
             } label: { Image(systemName: "x.circle.fill").foregroundColor(Color.gray)
                     .padding(.leading, 10)
+                    .buttonStyle(.borderless)
             }
         }
     }
