@@ -11,6 +11,7 @@ struct FormTextInput: View {
     let label: String
     @Binding var value: String
     let isClearable: Bool?
+    let isOptional: Bool?
     
     @ViewBuilder func renderClearIcon() -> some View {
         if isClearable! {
@@ -34,7 +35,7 @@ struct FormTextInput: View {
                     .frame(minWidth: 120, maxWidth: 120, alignment: .leading)
                 Spacer()
                 TextField(
-                    value == "" ? Translations.Common.optional : "",
+                    isOptional == true ? Translations.Common.optional : "",
                     text: $value
                 )
             }

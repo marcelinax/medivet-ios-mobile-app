@@ -11,11 +11,9 @@ struct UserProfileScreen: View {
     @EnvironmentObject var currentUserStore: CurrentUserStore
     @StateObject private var userProfileScreenController = UserProfileScreenController()
     @State private var userName: String = ""
-    @State private var userGender: Gender = Gender.male
     @State private var showImagePicker = false
     @State private var userImage: UIImage?
     @State private var showEditUserProfilePhotoAlert = false
-    @State private var userBirthDate: Date  = Date()
     @State private var showBirthDatePicker = false
     let dateFormatter = DateFormatter()
     private let formatAddressController = FormatAddressController()
@@ -110,7 +108,6 @@ struct UserProfileScreen: View {
             .onAppear(perform: ({
                 UIScrollView.appearance().keyboardDismissMode = .onDrag
                 userName = currentUserStore.user.name
-                userGender = currentUserStore.user.gender
                 UIApplication.shared.handleKeyboard()
             }))
             .navigationTitle(Translations.Navigation.userProfile)
