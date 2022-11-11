@@ -17,6 +17,7 @@ struct UserProfileScreen: View {
     @State private var showBirthDatePicker = false
     let dateFormatter = DateFormatter()
     private let formatAddressController = FormatAddressController()
+    let formatPhoneNumberController = FormatPhoneNumberController()
     
     var body: some View {
         ScrollView {
@@ -97,11 +98,16 @@ struct UserProfileScreen: View {
                             showBirthDatePicker = true
                         }),
                         value: dateFormatter.getShortFormat(currentUserStore.user.birthDate)
-                    ).allowsHitTesting(false)
+                    )
                     if showBirthDatePicker {
                         DatePicker(Translations.Inputs.birthDate, selection: $currentUserStore.user.birthDate, displayedComponents: [.date])
                             .datePickerStyle(.graphical)
                     }
+                    FormNavigationLinkWithLabel(
+                        label: Translations.Inputs.phoneNumber,
+                        value: formatPhoneNumberController.formatPhoneNumber(value: currentUserStore.user.phoneNumber),
+                        destination: UserProfilePhoneNumberScreen()
+                    )
                 }
             }.frame(height: 300)
         }.padding()

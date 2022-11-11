@@ -40,7 +40,6 @@ class FormatAddressController: UIViewController {
         for (index, digit) in value.enumerated() {
             result += String(digit)
             if index == 1 {
-                print(result)
                 if !value.contains("-") && value.count > 1 && !insertDashChar {
                     result += "-"
                 }
