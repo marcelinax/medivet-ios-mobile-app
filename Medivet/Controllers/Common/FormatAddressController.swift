@@ -8,7 +8,7 @@
 import UIKit
 
 class FormatAddressController: UIViewController {
-
+    
     func getAddress(street: String?, buildingNumber: Int?, flatNumber: Int?, zipCode: String?, city: String?) -> String {
         var result: String = ""
         if(street != nil) {
@@ -29,5 +29,25 @@ class FormatAddressController: UIViewController {
         
         return result
     }
+    
+    func formatPostalCode(value: String, insertDashChar: Bool = false) -> String {
+        var result: String = ""
+    
+        if value.count == 6 {
+            return value
+        }
+        
+        for (index, digit) in value.enumerated() {
+            result += String(digit)
+            if index == 1 {
+                print(result)
+                if !value.contains("-") && value.count > 1 && !insertDashChar {
+                    result += "-"
+                }
+            }
+    
+        }
 
+        return result
+    }   
 }

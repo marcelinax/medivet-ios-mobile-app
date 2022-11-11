@@ -14,12 +14,6 @@ struct UserProfileAddressScreen: View {
         Form{
             Section {
                 FormTextInput(
-                    label: Translations.Inputs.city,
-                    value: $currentUserStore.user.address.city,
-                    isClearable: false,
-                    isOptional: false,
-                )
-                FormTextInput(
                     label: Translations.Inputs.street,
                     value: $currentUserStore.user.address.street,
                     isClearable: false,
@@ -37,9 +31,14 @@ struct UserProfileAddressScreen: View {
                     isClearable: true,
                     isOptional: true
                 )
-                FormTextInput(
-                    label: Translations.Inputs.zipCode,
+                FormPostalCodeInput(
                     value: $currentUserStore.user.address.zipCode,
+                    isClearable: false,
+                    isOptional: false
+                )
+                FormTextInput(
+                    label: Translations.Inputs.city,
+                    value: $currentUserStore.user.address.city,
                     isClearable: false,
                     isOptional: false
                 )
