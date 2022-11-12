@@ -16,7 +16,7 @@ struct UserProfileScreen: View {
     @State private var showBirthDatePicker = false
     let dateFormatter = DateFormatter()
     private let formatAddressController = FormatAddressController()
-    let formatPhoneNumberController = FormatPhoneNumberController()
+    private let formatPhoneNumberController = FormatPhoneNumberController()
     
     var body: some View {
         Form {
@@ -68,11 +68,12 @@ struct UserProfileScreen: View {
                         }
                         Button(Translations.Common.cancel, role: .cancel) {}
                     }
-            }.padding(.vertical)
+            }
                 .frame(maxWidth: .infinity)
                 .sheet(isPresented: $showImagePicker) {
                     ImagePicker(selectedImage: $userImage, source: Binding.constant(.photoLibrary))
-                }
+                }.background(Color.gray.opacity(0.1))
+                .listRowInsets(EdgeInsets())
             Section {
                 FormNavigationLinkWithLabel(
                     label: Translations.Inputs.name,
