@@ -14,7 +14,7 @@ struct FormNumberInput: View {
     let isOptional: Bool?
     
     @ViewBuilder func renderClearIcon() -> some View {
-        if isClearable! {
+        if isClearable! && value != nil {
             Button {
                 clearValue()
             } label: { Image(systemName: "x.circle.fill").foregroundColor(Color.gray)

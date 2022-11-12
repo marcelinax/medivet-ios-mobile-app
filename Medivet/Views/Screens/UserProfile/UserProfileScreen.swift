@@ -10,7 +10,6 @@ import SwiftUI
 struct UserProfileScreen: View {
     @EnvironmentObject var currentUserStore: CurrentUserStore
     @StateObject private var userProfileScreenController = UserProfileScreenController()
-    @State private var userName: String = ""
     @State private var showImagePicker = false
     @State private var userImage: UIImage?
     @State private var showEditUserProfilePhotoAlert = false
@@ -20,8 +19,8 @@ struct UserProfileScreen: View {
     let formatPhoneNumberController = FormatPhoneNumberController()
     
     var body: some View {
-        ScrollView {
-            VStack {
+        Form {
+            VStack(alignment: .center) {
                 if currentUserStore.user.profilePhotoUrl != "" {
                     AsyncImage(
                         url: URL(string: currentUserStore.user.profilePhotoUrl)!,
@@ -57,71 +56,71 @@ struct UserProfileScreen: View {
                         .fontWeight(.semibold)
                         .font(.system(size: 14))
                 }.foregroundColor(Color.gray)
+                    .buttonStyle(.borderless)
                     .confirmationDialog("", isPresented: $showEditUserProfilePhotoAlert) {
                         Button(Translations.Screens.UserProfile.chooseProfilePhoto) {
                             self.showImagePicker = true
                         }
-                        Button(Translations.Screens.UserProfile.removeProfilePhoto, role: .destructive) {
-                            userProfileScreenController.removeUserProfilePhoto(currentUserStore: currentUserStore)
+                        if currentUserStore.user.profilePhotoUrl != "" {
+                            Button(Translations.Screens.UserProfile.removeProfilePhoto, role: .destructive) {
+                                userProfileScreenController.removeUserProfilePhoto(currentUserStore: currentUserStore)
+                            }
                         }
                         Button(Translations.Common.cancel, role: .cancel) {}
                     }
-            }.padding(.bottom, 16)
+            }.padding(.vertical)
+                .frame(maxWidth: .infinity)
                 .sheet(isPresented: $showImagePicker) {
                     ImagePicker(selectedImage: $userImage, source: Binding.constant(.photoLibrary))
                 }
-            MedivetTextInput(
-                errors: [],
-                isClearable: true,
-                placeholder: Translations.Inputs.name,
-                value: $userName
-            ).padding(.bottom, 40)
-            Form {
-                Section {
-                    FormNavigationLinkWithLabel(
-                        label: Translations.Inputs.address,
-                        value: formatAddressController.getAddress(
-                            street: currentUserStore.user.address.street,
-                            buildingNumber: currentUserStore.user.address.buildingNumber,
-                            flatNumber: currentUserStore.user.address.flatNumber,
-                            zipCode: currentUserStore.user.address.zipCode,
-                            city: currentUserStore.user.address.city),
-                        destination: UserProfileAddressScreen()
-                    )
-                    Picker(selection: $currentUserStore.user.gender, label: Text(Translations.Inputs.gender)) {
-                        Text(EnumsTranslations.Gender.male ).tag(Gender.male)
-                        Text(EnumsTranslations.Gender.female ).tag(Gender.female)
-                    }
-                    FormButtonWithLabelAndValue(
-                        label: Translations.Inputs.birthDate,
-                        action: ({
-                            showBirthDatePicker = true
-                        }),
-                        value: dateFormatter.getShortFormat(currentUserStore.user.birthDate)
-                    )
-                    if showBirthDatePicker {
-                        DatePicker(Translations.Inputs.birthDate, selection: $currentUserStore.user.birthDate, displayedComponents: [.date])
-                            .datePickerStyle(.graphical)
-                    }
-                    FormNavigationLinkWithLabel(
-                        label: Translations.Inputs.phoneNumber,
-                        value: formatPhoneNumberController.formatPhoneNumber(value: currentUserStore.user.phoneNumber),
-                        destination: UserProfilePhoneNumberScreen()
-                    )
+            Section {
+                FormNavigationLinkWithLabel(
+                    label: Translations.Inputs.name,
+                    value: currentUserStore.user.name,
+                    destination: UserProfileNameScreen()
+                )
+                FormNavigationLinkWithLabel(
+                    label: Translations.Inputs.address,
+                    value: formatAddressController.getAddress(
+                        street: currentUserStore.user.address.street,
+                        buildingNumber: currentUserStore.user.address.buildingNumber,
+                        flatNumber: currentUserStore.user.address.flatNumber,
+                        zipCode: currentUserStore.user.address.zipCode,
+                        city: currentUserStore.user.address.city),
+                    destination: UserProfileAddressScreen()
+                )
+                Picker(selection: $currentUserStore.user.gender, label: Text(Translations.Inputs.gender)) {
+                    Text(EnumsTranslations.Gender.male ).tag(Gender.male)
+                    Text(EnumsTranslations.Gender.female ).tag(Gender.female)
                 }
-            }.frame(height: 300)
-        }.padding()
-            .onAppear(perform: ({
-                UIScrollView.appearance().keyboardDismissMode = .onDrag
-                userName = currentUserStore.user.name
-                UIApplication.shared.handleKeyboard()
-            }))
-            .navigationTitle(Translations.Navigation.userProfile)
-            .navigationBarTitleDisplayMode(.inline)
-            .onChange(of: userImage) { value in
-                if userImage != nil {
-                    userProfileScreenController.updateUserProfilePhoto(image: userImage!, currentUserStore: currentUserStore)
+                FormButtonWithLabelAndValue(
+                    label: Translations.Inputs.birthDate,
+                    action: ({
+                        showBirthDatePicker = true
+                    }),
+                    value: dateFormatter.getShortFormat(currentUserStore.user.birthDate)
+                )
+                if showBirthDatePicker {
+                    DatePicker(Translations.Inputs.birthDate, selection: $currentUserStore.user.birthDate, displayedComponents: [.date])
+                        .datePickerStyle(.graphical)
                 }
+                FormNavigationLinkWithLabel(
+                    label: Translations.Inputs.phoneNumber,
+                    value: formatPhoneNumberController.formatPhoneNumber(value: currentUserStore.user.phoneNumber),
+                    destination: UserProfilePhoneNumberScreen()
+                )
             }
+        }
+        .onAppear(perform: ({
+            UIScrollView.appearance().keyboardDismissMode = .onDrag
+            UIApplication.shared.handleKeyboard()
+        }))
+        .navigationTitle(Translations.Navigation.userProfile)
+        .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: userImage) { value in
+            if userImage != nil {
+                userProfileScreenController.updateUserProfilePhoto(image: userImage!, currentUserStore: currentUserStore)
+            }
+        }
     }
 }

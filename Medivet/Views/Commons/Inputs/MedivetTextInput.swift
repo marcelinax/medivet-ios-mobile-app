@@ -15,7 +15,7 @@ struct MedivetTextInput: View {
     var icon: String?
     
     @ViewBuilder func renderClearIcon() -> some View {
-        if isClearable! {
+        if isClearable! && value != "" {
             Button {
                 clearValue()
             } label: { Image(systemName: "x.circle.fill").foregroundColor(Color.gray)
